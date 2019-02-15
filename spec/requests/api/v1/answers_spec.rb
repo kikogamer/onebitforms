@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Answers", type: :request do
+
   describe "GET /answers" do
     context "With Invalid authentication headers" do
       it_behaves_like :deny_without_authorization, :get, "/api/v1/answers"
@@ -25,8 +26,8 @@ RSpec.describe "Api::V1::Answers", type: :request do
       end
 
       it "returned Answers have right datas" do
-        expect(json[0]).to eql(JSON.parse(@answer1.to_json))
-        expect(json[1]).to eql(JSON.parse(@answer2.to_json))
+        expect(json[0].except('questions_answers')).to eql(JSON.parse(@answer1.to_json))
+        expect(json[1].except('questions_answers')).to eql(JSON.parse(@answer2.to_json))
       end
     end
   end
@@ -74,48 +75,39 @@ RSpec.describe "Api::V1::Answers", type: :request do
   end
 
   describe "POST /answers" do
-
-    context "With Invalid authentication headers" do
-      it_behaves_like :deny_without_authorization, :post, "/api/v1/answers"
-    end
-
-    context "With valid authentication headers" do
+    context "And with valid form id" do
       before do
         @user = create(:user)
-        @form = create(:form, user: @user)       
-        @question = create(:question, form: @form) 
+        @form = create(:form, user: @user)
+        @question = create(:question, form: @form)
+
+        @questions_answers_1_attributes = attributes_for(:questions_answer, question_id: @question.id)
+        @questions_answers_2_attributes = attributes_for(:questions_answer, question_id: @question.id)
+        post "/api/v1/answers", params: {form_id: @form.id, questions_answers: [@questions_answers_1_attributes, @questions_answers_2_attributes]}, headers: header_with_authentication(@user)
       end
 
-      context "And with valid form id" do
-        before do
-          @questions_answers_1_attributes = attributes_for(:questions_answer, question_id: @question.id)  
-          @questions_answers_2_attributes = attributes_for(:questions_answer, question_id: @question.id)            
-          post "/api/v1/answers", params: {form_id: @form.id, questions_answers: [@questions_answers_1_attributes, @questions_answers_2_attributes]}, headers: header_with_authentication(@user)
-        end
-
-        it "returns 200" do
-          expect_status(200)
-        end
-
-        it "answer are associated with correct form" do
-          expect(@form).to eql(Answer.last.form)
-        end
-
-        it "questions answer are associated" do
-          expect(json["id"]).to eql(QuestionsAnswer.first.answer.id)
-          expect(json["id"]).to eql(QuestionsAnswer.last.answer.id)          
-        end
+      it "returns 200" do
+        expect_status(200)
       end
 
-      context "And with invalid form id" do
-        before do
-          @other_user = create(:user)
-          post "/api/v1/answers", params: {form_id: 0}, headers: header_with_authentication(@user)
-        end
+      it "answer are associated with correct form" do
+        expect(@form).to eql(Answer.last.form)
+      end
 
-        it "returns 404" do
-          expect_status(404)
-        end
+      it "questions answer are associated" do
+        expect(json["id"]).to eql(QuestionsAnswer.first.answer.id)
+        expect(json["id"]).to eql(QuestionsAnswer.last.answer.id)          
+      end
+    end
+
+    context "And with invalid form id" do
+      before do
+        @other_user = create(:user)
+        post "/api/v1/answers", params: {form_id: 0}, headers: header_with_authentication(@other_user)
+      end
+
+      it "returns 404" do
+        expect_status(404)
       end
     end
   end
