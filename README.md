@@ -39,8 +39,6 @@ After that for test the installation enter the following to up the server
 ```
 $ docker-compose up
 ```
-Open your browser and access localhost:3000 to see the home page
-
 ## Running the tests
 
 To run the tests run the following in your terminal
