@@ -1,7 +1,6 @@
 # OneBitForms
 
-Create your research, send for users and analyze the results.
-Application designed in order to do researches.
+Web Api created to use in [OneBitFormsClient](https://github.com/kikogamer/onebitforms_client)
 
 ## Getting Started
 
