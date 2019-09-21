@@ -53,7 +53,7 @@ $ docker-compose run --rm app bundle exec rspec
 * [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) - Simple, multi-client and secure token-based authentication for Rails.
 * [Rack CORS Middleware](https://github.com/cyu/rack-cors) - provides support for Cross-Origin Resource Sharing (CORS) for Rack compatible web applications.
 * [Rack::Attack](https://github.com/kickstarter/rack-attack) - Rack middleware for blocking & throttling abusive requests.
-* [FriendlyId](https://github.com/mperham/sidekiq) - FriendlyId is the "Swiss Army bulldozer" of slugging and permalink plugins for Active Record. It lets you create pretty URLs and work with human-friendly strings as if they were numeric ids.
+* [FriendlyId](https://github.com/norman/friendly_id) - FriendlyId is the "Swiss Army bulldozer" of slugging and permalink plugins for Active Record. It lets you create pretty URLs and work with human-friendly strings as if they were numeric ids.
 * [rspec-rails](https://github.com/rspec/rspec-rails) - brings the RSpec testing framework to Ruby on Rails as a drop-in alternative to its default testing framework, Minitest.
 * [factory_bot](https://github.com/thoughtbot/factory_bot) - factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.
 * [ffaker](https://github.com/ffaker/ffaker) - is used to generated fake data.
